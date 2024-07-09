@@ -1,0 +1,91 @@
+<!-- Modal -->
+<div th:fragment="modal_form_tarefa(repository, user_id, repo_name, tarefa, usernames, collaborators)"
+    class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalNewTaskLabel">Formulário de Tarefa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- Formulário Comum -->
+            <form
+                th:action="@{${tarefa == null} ? '/user/' + ${user.id} + '/repositories/' + ${repo_name} + '/tasks/new' : '/user/' + ${user} + '/repositories/' + ${repo_name} + '/tasks/' + ${tarefa.id} + '/edit'}"
+                method="POST" class="row g-3 needs-validation">
+
+                <div class="col-md-6">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título"
+                        th:value="${tarefa != null ? tarefa.titulo : ''}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="data" class="form-label">Data:</label>
+                    <input type="date" class="form-control" id="data" name="prazo" placeholder="Selecione uma data"
+                        th:value="${tarefa != null ? tarefa.prazo : ''}" required>
+                </div>
+
+                <div class="col-12">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" name="descricao" placeholder="A tarefa consiste em..."
+                        th:text="${tarefa != null ? tarefa.descricao : ''}"></textarea>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="supervisor" class="form-label">Supervisor Responsável</label>
+                    <input type="text" class="form-control" id="supervisor" name="supervisorResponsavel"
+                        placeholder="Nome do supervisor"
+                        th:value="${tarefa != null && tarefa.isGitlabTarefa() ? tarefa.supervisorResponsavel : ''}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="tempoEstimado" class="form-label">Tempo Estimado</label>
+                    <input type="text" class="form-control" id="tempoEstimado" name="tempoEstimado"
+                           placeholder="Ex: 3 horas, 2 dias, 1 semana e 4 horas"
+                           th:value="${tarefa != null && tarefa.isGitlabTarefa() ? tarefa.tempoEstimado : ''}"
+                           pattern="^(\d+\s*(horas?|dias?|semanas?|meses?)\s*(e\s*\d+\s*(horas?|dias?|semanas?|meses?)?)?)$"
+                           title="Formato inválido. Exemplos válidos: '3 horas', '2 dias', '1 semana e 4 horas'">
+                </div>
+
+                <div class="col-md-4">
+                    <label for="prioridade" class="form-label">Prioridade</label>
+                    <select class="form-select" id="prioridade" name="prioridade">
+                        <option value="BAIXA" th:selected="${tarefa != null && tarefa.isGitlabTarefa() && tarefa.prioridade == 'BAIXA'}">Baixa
+                        </option>
+                        <option value="MÉDIA" th:selected="${tarefa != null && tarefa.isGitlabTarefa() && tarefa.prioridade == 'MÉDIA'}">Média
+                        </option>
+                        <option value="ALTA" th:selected="${tarefa != null && tarefa.isGitlabTarefa() && tarefa.prioridade == 'ALTA'}">Alta
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <fieldset class="border p-2">
+                        <legend>Escolha a quem atribuir a tarefa:</legend>
+                        <div th:each="collab : ${collaborators}" class="form-check form-check-inline px-0">
+                            <input th:value="${collab.username}" th:id="${collab.username}" type="checkbox"
+                                name="collaborators" class="btn-check"
+                                th:checked="${tarefa == null or (tarefa != null and #lists.contains(usernames, collab))}"
+                                autocomplete="off">
+                            <label th:for="${collab.username}" class="btn btn-outline-primary">
+                                <span th:text="${collab.username}"></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Salvar Tarefa</button>
+                </div>
+
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert" th:if="${errors}">
+                        <ul>
+                            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

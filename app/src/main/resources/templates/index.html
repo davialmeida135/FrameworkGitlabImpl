@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/general.html :: head}"></head>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+  <!-- Incluindo o fragmento SVG -->
+  <div th:replace="~{fragments/svg-fragments :: svg}"></div>
+
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div th:replace="~{fragments/general.html :: header_fragments('Home', null)}"></div>
+
+    <main class="px-3">
+      <h1>Seus projetos sob controle!</h1>
+      <p class="lead">Tenha controle total sobre seus projetos</p>
+      <p class="lead">
+        <a href="/home" id="btnLogin" class="btn btn-lg btn-light fw-bold border-white bg-white">Login com Gitlab</a>
+      </p>
+    </main>
+
+    <footer class="mt-auto text-white-50">
+      <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+          href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

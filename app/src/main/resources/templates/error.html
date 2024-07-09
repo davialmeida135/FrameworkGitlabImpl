@@ -1,0 +1,36 @@
+<head th:replace="~{fragments/general.html :: head}"></head>
+
+<body class="bg-dark text-white">
+    <div th:replace="~{fragments/svg-fragments :: svg}"></div>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <div th:replace="~{fragments/general.html :: header_fragments('', '')}"></div>
+
+        <div class="container error-container cover-container d-flex w-100 h-100 p-3 mx-auto flex-column justify-content-center align-items-center">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h1 class="display-4">Ops! Algo deu errado.</h1>
+                    <p class="lead">Desculpe, ocorreu um erro ao processar sua solicitação.</p>
+                    <p>Por favor, tente novamente mais tarde.</p>
+                    <a href="/" class="btn btn-primary">Voltar para a Página Inicial</a>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <div class="alert alert-danger" role="alert" th:if="${errorMessage}">
+                        <strong th:text="${errorMessage}">Mensagem de erro amigável</strong>
+                        <strong th:if="${param.errorMessage}" th:text="${#url.decode(param.errorMessage)}">Mensagem de erro amigável</strong>
+                        <hr>
+                        <p class="mb-0" th:text="'Detalhes do erro: ' + ${errorDetails}">Detalhes do erro para
+                            desenvolvedores.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

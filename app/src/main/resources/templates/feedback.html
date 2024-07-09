@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/general.html :: head}"></head>
+
+<body class="d-flex flex-column h-100 text-center text-bg-dark">
+
+    <div th:replace="~{fragments/svg-fragments :: svg}"></div>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header th:replace="~{fragments/general.html :: header_fragments('', ${user})}" class="mb-auto"></header>
+
+        <main class="flex-grow-1 d-flex justify-content-center align-items-center px-3">
+            <div class="row justify-content-center">
+                <!-- Coluna do Chat -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div style="background-color: rgb(45, 85, 148);" class="card-header text-white text-center">
+                            <h2 class="mb-0">Chat</h2>
+                        </div>
+                        <div class="card-body">
+                            <div th:each="feedback : ${feedbacks}">
+                                <div class="mb-3">
+                                    <strong th:text="${feedback.escritor}"></strong><br>
+                                    <span th:text="${feedback.comentario}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim da Coluna do Chat -->
+
+                <!-- Coluna do Formulário de Envio -->
+                <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                    <div class="card">
+                        <div style="background-color: rgb(45, 85, 148);" class="card-header text-white text-center">
+                            <h2 class="mb-0">Enviar Feedback</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="mb-3">
+                                    <input type="text" id="send_feedback" name="mensagem" class="form-control"
+                                        placeholder="Digite sua mensagem">
+                                </div>
+                                <div class="mb-3 d-grid">
+                                    <button style="background-color: rgb(45, 85, 148);" type="submit" class="btn btn-primary">Enviar</button>
+                                </div>
+                                <fieldset class="border p-3">
+                                    <legend class="mb-0">Escolha o destinatário:</legend>
+                                    <select name="collaborators" class="form-control mt-3">
+                                        <!-- Opções de colaboradores -->
+                                        <option th:each="collab : ${collaborators}" th:value="${collab.username}"
+                                            th:text="${collab.username}"></option>
+                                        <!-- Fim das opções de colaboradores -->
+                                    </select>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim da Coluna do Formulário de Envio -->
+            </div>
+        </main>
+
+    </div>
+</body>
+
+</html>

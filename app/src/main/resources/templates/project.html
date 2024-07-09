@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="auto">
+
+<head th:replace="~{fragments/general.html :: head}">
+</head>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+    <div th:replace="~{fragments/svg-fragments :: svg}"></div>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:replace="~{fragments/general.html :: header_fragments('', ${user.getId()})}"></div>
+
+        <main class="px-3 d-flex flex-column justify-content-center align-items-center mb-auto mt-auto">
+            <div class="detalhes_repository">
+                <h1>Detalhes do Repositório</h1>
+                <p>ID: <span th:text="${repository.id}"></span></p>
+                <p>Nome: <span th:text="${repository.name}"></span></p>
+                <p>Descrição: <span th:text="${repository.description}"></span></p>
+                <p>Dono: <span th:text="${repository.owner}"></span></p>
+                <p>Branches: <span th:text="${repository.branches}"></span></p>
+                <p>Colaboradores:
+                <ul th:each="user : ${collaborators}">
+                    <li th:text="${user.username}"></li>
+                </ul></span></p>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="btn btn-primary me-3 text-" data-bs-toggle="modal"
+                    data-bs-target="#modalNewTask">
+                    Adicionar Nova Tarefa
+                </button>
+
+                <!-- Botão para Ver Todas as Tarefas -->
+                <a th:href="@{'/user/' + ${user.id} + '/repositories/' + ${repo_name} + '/tasks'}"
+                    class="btn btn-secondary">Ver
+                    Todas as Tarefas</a>
+
+                <!-- Botão para Ver Feedback -->
+                <a th:href="@{'/user/' + ${user.id} + '/repositories/' + ${repo_name} + '/feedback'}"
+                    class="btn btn-info">Ver
+                    Feedback</a>
+
+                <!-- Botão para Ver Cronograma -->
+                <a th:href="@{'/user/' + ${user.id} + '/repositories/' + ${repo_name} + '/cronograma'}"
+                    class="btn btn-info">Ver
+                    Cronograma</a>
+            </div>
+
+            <!-- Importe o fragmento do modal -->
+            <div style="color: #000000;" class="modal fade text-start col-md-8" id="modalNewTask" tabindex="-1"
+                aria-labelledby="modalNewTaskLabel" aria-hidden="true">
+                <div
+                    th:replace="~{fragments/modal_form_tarefa :: modal_form_tarefa(${repository}, ${user.id}, ${repo_name}, null, null, ${collaborators})}">
+                </div>
+            </div>
+        </main>
+        
+        <footer class="mt-2 text-white-50">
+            <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                    href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var modalNewTask = new bootstrap.Modal(document.getElementById('modalNewTask'));
+        });
+    </script>
+
+</body>
+
+</html>
